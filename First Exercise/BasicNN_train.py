@@ -56,6 +56,7 @@ plt.ylabel('Effectiveness')
 plt.xlabel('Dose')
 
 plt.show()
+
 # plt.savefig('BasicNN_training.pdf')
 
 

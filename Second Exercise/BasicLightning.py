@@ -2,14 +2,18 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import seaborn as sns
+
+import lightning as L
+
+from torch.utils.data import TensorDataset, DataLoader
 
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 # Creation of the model
 
-
-class BasicNN(nn.Module):
+class BasicLightning(L.LightningModule):
     def __init__(self):
         super().__init__()
         self.w00 = nn.Parameter(torch.tensor(1.7), requires_grad=False)
@@ -30,21 +34,21 @@ class BasicNN(nn.Module):
         bottom_relu_output = F.relu(input_to_bottom_relu)
         scaled_bottom_relu_output = self.w11 * bottom_relu_output
 
-        sum_of_scaled_outputs = scaled_top_relu_output + \
-            scaled_bottom_relu_output + self.final_bias
+        sum_of_scaled_outputs = (scaled_top_relu_output +
+                                 scaled_bottom_relu_output + self.final_bias)
 
         output = F.relu(sum_of_scaled_outputs)
 
         return output
 
-# Implementation of the model
 
+# Implementation of the model
 
 input_doses = torch.linspace(start=0, end=1, steps=11)
 
 print(input_doses)
 
-model = BasicNN()
+model = BasicLightning()
 
 output_values = model(input_doses)
 
